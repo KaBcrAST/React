@@ -16,22 +16,26 @@ const App = () => {
           throw new Error("Non connecté");
         }
       })
-      .then((data) => setUser(data))
+      .then((data) => {
+        console.log("Utilisateur connecté:", data); // Affiche l'objet utilisateur dans la console
+        setUser(data);  // Met à jour l'état utilisateur
+        window.location.href = "/home"; // Vous pouvez rediriger l'utilisateur vers la page "Home" ici
+      })
       .catch(() => setUser(null));
   }, []);
 
-  // Fonction pour rediriger l'utilisateur vers Azure AD pour se connecter
+  // Fonction pour rediriger vers la page de connexion Azure
   const handleLogin = () => {
     window.location.href = "https://ap-dfe2cvfsdafwewaw.canadacentral-01.azurewebsites.net/auth/openid";
   };
 
-  // Afficher le profil utilisateur ou une option de connexion
   return (
     <div>
       {user ? (
         <div>
           <h1>Bienvenue, {user.displayName}</h1>
           <p>Email: {user.emails?.[0]}</p>
+          {/* Vous pouvez afficher d'autres informations utilisateur ici */}
         </div>
       ) : (
         <button onClick={handleLogin}>Se connecter avec Azure AD</button>

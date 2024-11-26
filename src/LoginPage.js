@@ -10,7 +10,7 @@ const LoginPage = () => {
 
   return (
     <div>
-      <h1>Se connecter à l'application</h1>
+      <h1>Se connecter à l'applicatio</h1>
       <button onClick={handleLogin}>Se connecter avec Azure AD</button>
     </div>
   );

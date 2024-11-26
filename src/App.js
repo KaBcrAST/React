@@ -19,7 +19,7 @@ const App = () => {
       .then((data) => {
         console.log("Utilisateur connecté:", data); // Affiche l'objet utilisateur dans la console
         setUser(data);  // Met à jour l'état utilisateur
-        window.location.href = "/home"; // Redirige vers la page "Home"
+        window.location.href = "/home"; // Vous pouvez rediriger l'utilisateur vers la page "Home" ici
       })
       .catch(() => setUser(null));
   }, []);

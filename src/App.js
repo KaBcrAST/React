@@ -1,46 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { msalInstance, loginRequest } from './authConfig';
+import LoginPage from './LoginPage';
+import Callback from './Callback';
+import ProtectedPage from './ProtectedPage'; // Assurez-vous que ce fichier existe
 
 const App = () => {
-  const [user, setUser] = useState(null);
-
-  // Vérifie si l'utilisateur est connecté
-  useEffect(() => {
-    fetch("https://ap-dfe2cvfsdafwewaw.canadacentral-01.azurewebsites.net/profile", {
-      method: "GET",
-      credentials: "include", // Important pour inclure les cookies de session
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw new Error("Non connecté");
-        }
-      })
-      .then((data) => {
-        console.log("Utilisateur connecté:", data); // Affiche l'objet utilisateur dans la console
-        setUser(data);  // Met à jour l'état utilisateur
-        window.location.href = "/home"; // Vous pouvez rediriger l'utilisateur vers la page "Home" ici
-      })
-      .catch(() => setUser(null));
-  }, []);
-
-  // Fonction pour rediriger vers la page de connexion Azure
-  const handleLogin = () => {
-    window.location.href = "https://ap-dfe2cvfsdafwewaw.canadacentral-01.azurewebsites.net/auth/openid";
+  // Fonction de login
+  const login = async () => {
+    try {
+      await msalInstance.loginPopup(loginRequest);
+      console.log('Connexion réussie');
+    } catch (error) {
+      console.error('Erreur de connexion :', error);
+    }
   };
 
+  useEffect(() => {
+    const checkAccount = async () => {
+      const currentAccount = msalInstance.getAllAccounts()[0];
+      if (currentAccount) {
+        console.log('Utilisateur connecté :', currentAccount);
+      }
+    };
+
+    checkAccount();
+  }, []);
+
   return (
-    <div>
-      {user ? (
-        <div>
-          <h1>Bienvenue, {user.displayName}</h1>
-          <p>Email: {user.emails?.[0]}</p>
-          {/* Vous pouvez afficher d'autres informations utilisateur ici */}
-        </div>
-      ) : (
-        <button onClick={handleLogin}>Se connecter avec Azure AD</button>
-      )}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginPage login={login} />} />
+        <Route path="/auth/callback" element={<Callback />} />
+        <Route path="/protected" element={<ProtectedPage />} />
+      </Routes>
+    </Router>
   );
 };
 

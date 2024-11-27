@@ -1,48 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { msalInstance } from "./msalInstance";
+import React, { useState } from 'react';
+import axios from 'axios';
 
-const App = () => {
-  const [msalInitialized, setMsalInitialized] = useState(false);
+const API_URL = 'https://ap-dfe2cvfsdafwewaw.canadacentral-01.azurewebsites.net';
 
-  useEffect(() => {
-    const initializeMsal = async () => {
-      try {
-        await msalInstance.handleRedirectPromise(); // Initialise MSAL
-        console.log("MSAL initialized");
-        setMsalInitialized(true); // MSAL prêt à être utilisé
-      } catch (error) {
-        console.error("Erreur lors de l'initialisation de MSAL:", error);
-      }
-    };
-    initializeMsal();
-  }, []);
+function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setToken] = useState(null);
 
-  const login = async () => {
-    if (!msalInitialized) {
-      console.error("MSAL n'est pas encore initialisé !");
-      return;
-    }
+  const handleLogin = () => {
+    window.location.href = `${API_URL}/auth/login`;
+  };
 
+  const fetchUserDetails = async () => {
     try {
-      const loginResponse = await msalInstance.loginPopup({
-        scopes: ["User.Read"], // Assurez-vous que ce scope est configuré dans Azure AD
+      const response = await axios.get(`${API_URL}/auth/success`, {
+        headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("Login Successful: ", loginResponse);
-    } catch (error) {
-      console.error("Login Error: ", error);
+      alert(`Bienvenue ! Votre token : ${response.data.token}`);
+    } catch (err) {
+      console.error(err);
+      alert('Impossible de récupérer les détails utilisateur.');
     }
   };
 
   return (
-    <div>
-      <h1>Application React avec MSAL</h1>
-      {msalInitialized ? (
-        <button onClick={login}>Se connecter</button>
+    <div style={{ padding: '20px' }}>
+      <h1>Application OAuth avec Azure AD</h1>
+      {!isAuthenticated ? (
+        <button onClick={handleLogin}>Se connecter avec Azure AD</button>
       ) : (
-        <p>Initialisation en cours...</p>
+        <>
+          <button onClick={fetchUserDetails}>Voir mes informations</button>
+        </>
       )}
     </div>
   );
-};
+}
 
 export default App;

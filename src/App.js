@@ -25,7 +25,7 @@ function App() {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Application OAuth avec Azure AD</h1>
+      <h1>Application OAuth avec Azure  AD</h1>
       {!isAuthenticated ? (
         <button onClick={handleLogin}>Se connecter avec Azure AD</button>
       ) : (

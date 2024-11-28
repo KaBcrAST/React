@@ -1,65 +1,37 @@
-import React, { useState } from 'react';
+import React from "react";
+import { useMsal, useIsAuthenticated } from "@azure/msal-react";
+import { loginRequest } from "./authConfig";
+import UserProfile from "./UserProfile";
 
-function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userToken, setUserToken] = useState(null);
+const App = () => {
+  const { instance } = useMsal();
+  const isAuthenticated = useIsAuthenticated();
 
   const handleLogin = () => {
-    // Envoie une requête POST pour démarrer le processus d'authentification
-    fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then(response => response.json())
-      .then(data => {
-        // Redirige vers l'URL de connexion Azure AD
-        window.location.href = data.authUrl;
-      })
-      .catch(error => {
-        console.error('Erreur de connexion:', error);
-      });
+    instance.loginPopup(loginRequest).catch((e) => {
+      console.error(e);
+    });
   };
 
-  const handleCallback = async () => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const code = urlParams.get('code');
-
-    if (code) {
-      try {
-        // Envoie le code reçu pour obtenir un access_token
-        const response = await fetch(`/api/auth/callback?code=${code}`);
-        const data = await response.json();
-        
-        if (data.accessToken) {
-          setIsAuthenticated(true);
-          setUserToken(data.accessToken);
-          alert('Connexion réussie !');
-        }
-      } catch (error) {
-        console.error('Erreur lors de la connexion:', error);
-        alert('Erreur lors de la connexion.');
-      }
-    }
+  const handleLogout = () => {
+    instance.logoutPopup().catch((e) => {
+      console.error(e);
+    });
   };
-
-  React.useEffect(() => {
-    handleCallback();
-  }, []);
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Application OAuth avec Azure AD</h1>
+    <div>
+      <h1>React MSAL Authentication</h1>
       {!isAuthenticated ? (
-        <button onClick={handleLogin}>Se connecter avec Azure AD</button>
+        <button onClick={handleLogin}>Sign In</button>
       ) : (
-        <div>
-          <h2>Vous êtes connecté !</h2>
-          <p>Token : {userToken}</p>
-        </div>
+        <>
+          <button onClick={handleLogout}>Sign Out</button>
+          <UserProfile />
+        </>
       )}
     </div>
   );
-}
+};
 
 export default App;

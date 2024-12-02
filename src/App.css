@@ -1,38 +1,90 @@
-.App {
-  text-align: center;
+/* App.css - Styles globaux pour l'application */
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5; /* Couleur de fond de l'application */
+  color: #333; /* Couleur de texte globale */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1, h2 {
+  font-family: 'Segoe UI', sans-serif; /* Police d'en-tête */
+  color: #333;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+button {
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: #0073b1; /* Couleur de fond des boutons */
+  color: white;
+  font-size: 14px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+button:hover {
+  background-color: #005b8b; /* Couleur du bouton au survol */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.app {
+  background-color: #ffffff; /* Fond de l'app */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.post-feed {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 20px;
+}
+
+.post {
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post .title {
+  font-weight: bold;
+}
+
+.post .body {
+  margin-top: 10px;
+  color: #555;
+}
+
+.login-container {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #0073b1;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.login-container h2 {
+  margin-bottom: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.login-container button {
+  padding: 10px 20px;
+  background-color: #ffffff;
+  color: #0073b1;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  background-color: #005b8b;
+  color: white;
 }

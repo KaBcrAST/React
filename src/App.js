@@ -1,36 +1,30 @@
-import React from "react";
-import { useMsal, useIsAuthenticated } from "@azure/msal-react";
-import { loginRequest } from "./authConfig";
-import UserProfile from "./UserProfile";
+import React, { useState } from 'react';
+import { MsalProvider } from '@azure/msal-react';
+import { msalInstance } from './authConfig';
+import FeedApp from './Component/FeedApp';
+import Login from './Component/Login';
+import './App.css';
 
 const App = () => {
-  const { instance } = useMsal();
-  const isAuthenticated = useIsAuthenticated();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
 
-  const handleLogin = () => {
-    instance.loginPopup(loginRequest).catch((e) => {
-      console.error(e);
-    });
-  };
-
-  const handleLogout = () => {
-    instance.logoutPopup().catch((e) => {
-      console.error(e);
-    });
+  const handleLogin = (userInfo, token) => {
+    setIsAuthenticated(true);
+    setUser(userInfo);
+    localStorage.setItem('accessToken', token);  // Stocke le token pour l'utiliser dans les requêtes
   };
 
   return (
-    <div>
-      <h1>React MSAL Authentication</h1>
-      {!isAuthenticated ? (
-        <button onClick={handleLogin}>Sign In</button>
-      ) : (
-        <>
-          <button onClick={handleLogout}>Sign Out</button>
-          <UserProfile />
-        </>
-      )}
-    </div>
+    <MsalProvider instance={msalInstance}>
+      <div className="app">
+        {isAuthenticated ? (
+          <FeedApp user={user} />  // Si l'utilisateur est authentifié, afficher FeedApp
+        ) : (
+          <Login onLogin={handleLogin} />  // Sinon, afficher la page de login
+        )}
+      </div>
+    </MsalProvider>
   );
 };
 

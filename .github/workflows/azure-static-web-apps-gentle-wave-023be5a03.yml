@@ -19,6 +19,14 @@ jobs:
         with:
           submodules: true
           lfs: false
+
+      # Étape pour configurer Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20' # Spécifiez la version de Node.js requise
+
+      # Étape pour construire et déployer
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1

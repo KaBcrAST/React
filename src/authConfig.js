@@ -17,3 +17,34 @@ export const loginRequest = {
 };
 
 export const msalInstance = new PublicClientApplication(msalConfig);
+
+// Fonction pour récupérer ou créer un profil utilisateur
+export const fetchOrCreateUserProfile = async () => {
+  try {
+    // Acquérir un token d'accès silencieusement
+    const response = await msalInstance.acquireTokenSilent({
+      scopes: ['User.Read'],
+    });
+
+    // Récupérer l'ID de l'utilisateur (graphUserId)
+    const userId = response.account.idTokenClaims.oid;  // L'ID unique de l'utilisateur dans Azure AD
+    console.log('User ID:', userId);
+
+    // Appeler ton API backend pour vérifier ou créer le profil utilisateur
+    const apiResponse = await fetch(`http://localhost:5000/profiles/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${response.accessToken}`,
+      },
+    });
+
+    const data = await apiResponse.json();
+    console.log('User profile:', data);
+
+    // Tu peux stocker les données du profil dans l'état de ton application si nécessaire
+    return data;  // Retourner les données du profil utilisateur
+
+  } catch (error) {
+    console.error('Error during token acquisition or API call:', error);
+  }
+};

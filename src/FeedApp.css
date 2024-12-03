@@ -1,123 +1,93 @@
+/* Container principal du Feed */
 .feed-container {
-  background-color: #f3f2ef;
+  margin: 0 auto;
+  max-width: 800px;
   padding: 20px;
-  font-family: Arial, sans-serif;
-  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
 }
 
-.feed-title {
+/* Style du titre principal */
+.feed-header h1 {
   text-align: center;
-  font-size: 28px;
+  font-size: 2rem;
   color: #0073b1;
   margin-bottom: 20px;
 }
 
-/* Formulaire de création de post */
-.create-post-form {
-  background-color: #ffffff;
-  border: 1px solid #dcdcdc;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 30px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.create-post-form h2 {
-  margin-bottom: 15px;
-  font-size: 20px;
-  color: #333333;
-}
-
-.create-post-form input[type="text"],
-.create-post-form textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #dcdcdc;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-.create-post-form textarea {
-  resize: none;
-}
-
-.create-post-form input[type="file"] {
-  margin-bottom: 15px;
-}
-
-.create-post-form button {
-  background-color: #0073b1;
-  color: #ffffff;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.create-post-form button:hover {
-  background-color: #005f8a;
-}
-
-.post-card {
-  background-color: #ffffff;
-  border: 1px solid #dcdcdc;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 20px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.post-header {
+/* Style des posts sous forme de carte */
+.post-list {
   display: flex;
-  align-items: center;
-  margin-bottom: 15px;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.post-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 15px;
+/* Carte de chaque post */
+.post-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
 }
 
-.post-author {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333333;
-}
-
-.post-date {
-  font-size: 14px;
-  color: #666666;
-}
-
-.post-content {
-  margin-top: 10px;
-}
-
+/* Titre du post centré et plus grand */
 .post-title {
-  font-size: 20px;
+  text-align: center;
+  font-size: 2rem;
   font-weight: bold;
   color: #0073b1;
   margin-bottom: 10px;
 }
 
-.post-body {
-  font-size: 16px;
-  color: #333333;
-  margin-bottom: 10px;
-}
-
-.post-media {
-  max-width: 100%;
+/* Image du post centrée et ajustée dans la carte */
+.post-image {
+  width: 70%; /* Réduit la taille de l'image */
+  height: auto;
+  object-fit: cover;
+  margin: 10px auto;
   border-radius: 8px;
-  margin-top: 10px;
+  display: block; /* Centre l'image horizontalement */
 }
 
-.no-posts {
-  text-align: center;
-  font-size: 18px;
-  color: #666666;
+/* Description du post */
+.post-body {
+  font-size: 1rem;
+  color: #555;
+  text-align: left; /* Garde la description à gauche */
+  margin-bottom: 50px; /* Augmenter la marge sous la description */
+  line-height: 1.5;
+}
+
+/* Footer avec le nom de l'auteur et la timestamp */
+.post-footer {
+  position: absolute;
+  bottom: 20px; /* Place bien le footer en bas */
+  left: 20px; /* Aligne à gauche */
+  font-size: 0.85rem;
+  color: #777;
+}
+
+/* Détails de l'auteur dans le footer */
+.post-footer .author-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.post-footer .author-details h4 {
+  font-weight: bold;
+  margin: 0;
+  font-size: 0.9rem; /* Taille du nom de l'auteur plus petite */
+}
+
+.post-footer .author-details p {
+  font-style: italic;
+  margin: 5px 0 0 0; /* Espacement du texte */
+  font-size: 0.8rem; /* Taille de l'heure plus petite */
 }

@@ -14,11 +14,7 @@ const FeedApp = () => {
   const [isLoading, setIsLoading] = useState(true); // Ajout de l'état de loading
 
   const [profile, setProfile] = useState(null); // État pour stocker le profil complet
-  const [loading, setLoading] = useState(false); // État pour gérer l'état de chargement
-
-  // Le reste du code continue...
-
-  // Fonction pour récupérer le nom de l'auteur via l'API Microsoft Graph
+  const [loading, setLoading] = useState(false); // État pour gérer l'éta
   const getUserName = async (userId, token) => {
     try {
       const url = `https://graph.microsoft.com/v1.0/users/${userId}`;
@@ -85,10 +81,6 @@ const FeedApp = () => {
     }
   };
   
-  
-  
-
-  // Vérifie si un utilisateur est connecté et authentifié
   const checkAccount = () => {
     const account = msalInstance.getAllAccounts()[0];
     if (account) {

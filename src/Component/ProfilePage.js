@@ -27,8 +27,7 @@ const ProfilePage = () => {
 
     fetchUserId();
   }, []);
-
-  // Fonction pour récupérer le profil de l'utilisateur avec son ID
+  
   const fetchUserProfile = async (userId) => {
     if (!userId) return;
 
